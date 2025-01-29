@@ -1,33 +1,34 @@
-//import { useState } from 'react'
-//import reactLogo from './assets/react.svg'
-//import viteLogo from '/vite.svg'
-import './App.css'
-// Create a client
-// import {
-//   // useQuery,
-//   // useMutation,
-//   // useInfiniteQuery,
-//   // useDebounce,
-//   // usePrefetchQuery,
-//   // useMutation,
-//   // useErrorBoundary,
-//   // useQueryClient,
-//   QueryClient,
-//   QueryClientProvider,
-// } from '@tanstack/eslint-plugin-query'
-import {QueryClient,
-  QueryClientProvider, } from '@tanstack/react-query';
-
-import Todos from './pages/todos/Todos'
-
-const queryClient = new QueryClient()
+import './index.css';
+ import {QueryClient,
+   QueryClientProvider, } from '@tanstack/react-query';
+ const queryClient = new QueryClient()
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/home/Home";
+import AboutUs from "./pages/aboutus/AboutUs";
+import Contact from "./pages/contact/Contact";
+import Todos from "./pages/todos/Todos";
+//import Sidebar from "./components/Sidebar";
 function App() { 
   return (
-    <>
     <QueryClientProvider client={queryClient}>
-      <Todos />
+      <Router>
+        <div className="flex min-h-screen bg-gray-100">
+          {/* <Sidebar /> */}
+          <div className="flex-1 flex flex-col">
+            <Navbar />
+            <div className="container mx-auto p-6">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/todos" element={<Todos />} />
+              </Routes>
+            </div>
+          </div>
+        </div>
+      </Router>
     </QueryClientProvider>
-    </>
   )
 }
 
