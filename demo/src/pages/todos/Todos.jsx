@@ -14,14 +14,6 @@ const Todos = () => {
   if (error) return 'An error has occurred: ' + error.message;
 
   return (
-    // <div>
-    //   <h1>{data.full_name}</h1>
-    //   <p>{data.description}</p><br/>
-    //   <strong>👀 {data.subscribers_count}</strong>{' '}<br/>
-    //   <strong>✨ {data.stargazers_count}</strong>{' '}<br/>
-    //   <strong>🍴 {data.forks_count}</strong><br/>
-    //   <div>{isFetching ? 'Updating...' : ''}</div>
-    // </div>
     <div className="repo-card">
     <Card title={data.full_name}>
       <p>{data.description}</p>
