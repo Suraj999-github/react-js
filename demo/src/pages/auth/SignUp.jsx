@@ -9,9 +9,11 @@ import { Password } from "primereact/password";
 const SignUp = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+
   const handleSignIn = () => {
     navigate("/signin"); // Navigate to /signup when the Sign Up button is clicked
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Signup successful! Please sign in.");

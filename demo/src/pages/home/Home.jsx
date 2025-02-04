@@ -3,26 +3,33 @@ import { Image } from 'primereact/image';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { isAuthenticated } from "../../utils/authHelpers";
 // Import chart.js
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import {Toast} from "primereact/toast";
+import useToaster from "../../hooks/useToaster.js";
+import {useEffect} from "react";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const Home = () => {
   const navigate = useNavigate();
+  const {toast} = useToaster()
+
 
   if (!isAuthenticated()) {
     navigate("/signin");
     return null;
   }
+
+
   return (
     <div className="repo-card">
       {/* Hero Section */}
       <Card>
-       
+          <Toast ref={toast} />
           <div>
             <h1>Welcome to Our Platform</h1>
             <p>Your gateway to the latest news, trends, and insights.</p>

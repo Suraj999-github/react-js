@@ -1,27 +1,32 @@
 //import React from "react";
-import { useState } from 'react';
+import { useState} from 'react';
 import { Menubar } from "primereact/menubar";
-import { useNavigate } from "react-router-dom";
-import { logout, isAuthenticated } from "../utils/authHelpers";
+import { useNavigate} from "react-router-dom";
+import {  isAuthenticated } from "../utils/authHelpers";
 //import {  isAuthenticated } from "../utils/authHelpers";
 import { Button } from "primereact/button";
 import { Badge } from 'primereact/badge';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 //import { Badge } from 'primereact/badge';
-import { Avatar } from 'primereact/avatar'; 
+import { Avatar } from 'primereact/avatar';
+import {useAuth} from "../hooks/useAuth.jsx";
+
 const Navbar = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
-  
+  const {logout} = useAuth();
+
   const handleLogout = () => {
-    logout();
-    navigate("/signin");
+      logout();
+      navigate('/')
   };
+
+
   const profileItems = [
       { label: 'Profile', icon: 'pi pi-user' ,command: () => navigate("/profile")  },
       { label: 'Settings', icon: 'pi pi-cog',command: () => navigate("/setting")  },
-      { label: 'Logout', icon: 'pi pi-sign-out' ,command: handleLogout  },
+      { label: 'Logout', icon: 'pi pi-sign-out' ,command: ()=>handleLogout()  },
   ];
 
 //   // Custom item template for rendering each dropdown item
@@ -99,32 +104,37 @@ const Navbar = () => {
   },
   ];
 
+
+
   const end = isAuthenticated() ? (
     <div className="flex align-items-center gap-2">
     {/* <Button label="Logout" icon="pi pi-sign-out" className="p-button-danger p-button-sm" onClick={handleLogout} /> */}
     <InputText placeholder="Search" type="text" className="w-8rem sm:w-auto" />
-    <div className="relative">           
-    <Dropdown
-                value={selectedItem}
-                options={profileItems}
-                onChange={(e) => setSelectedItem(e.value)}              
-               // placeholder={<img src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" size="small" className="mr-2" alt="Select Option" />} 
-               placeholder={<div className="flex align-items-center"> 
-                <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" size="small" className="mr-2" />
-            </div>} 
-               
-                className="w-8rem sm:w-auto"
-                itemTemplate={(option) => (
-                  <div>
+    <div className="relative">
+        <Dropdown
+            value={selectedItem}
+            options={profileItems}
+            onChange={(e) => {
+                setSelectedItem(e.value);
+                if (e.value?.command) {
+                    e.value.command();
+                }
+            }}
+            placeholder={
+                <div className="flex align-items-center">
+                    <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" shape="circle" size="small" className="mr-2" />
+                </div>
+            }
+            className="w-8rem sm:w-auto"
+            itemTemplate={(option) => (
+                <div>
                     <i className={option.icon}></i> {option.label}
-                  </div>
-                )}
-            />
+                </div>
+            )}
+        />
       </div>
 </div>
 
-
-    
   ) : (
     <>
       <Button label="Sign In" icon="pi pi-sign-in" className="p-button-text p-button-sm mr-2" onClick={() => navigate("/signin")} />
